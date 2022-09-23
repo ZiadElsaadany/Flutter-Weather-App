@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather_app/controller/provider.dart';
-import 'package:weather_app/models/weather_model.dart';
 import 'package:weather_app/pages/search_page.dart';
 
 class HomePage extends StatefulWidget {
-
+  const HomePage({Key? key}) : super(key: key);
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -13,7 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    List<String> time= Provider.of<ApiManager>(context,listen: false).weatherModel!.date.split(' ') ;
+    // List<String> time= Provider.of<ApiManager>(context,listen: false).weatherModel.date.split(' ') ;
     return Consumer<ApiManager>(
       builder: (context,provider,_ ) {
         return Scaffold(
@@ -24,16 +23,16 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(right: 10.0),
               child: IconButton(icon:const Icon(  Icons.search) , onPressed: (){
                 Navigator.push(context,MaterialPageRoute(builder: (context)=>
-                 SearchPage()
+                 const SearchPage()
                 ) );
               }),
             )],
           ),
-          body: provider.weatherModel==null ? Container(
+          body: provider.getWeatherModel ==null ? Container(
             width: double.infinity,
             height: double.infinity,
             alignment: Alignment.center,
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: const Text(
                 'There is no weather start searching now',
               style: TextStyle(
@@ -45,23 +44,24 @@ class _HomePageState extends State<HomePage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Spacer(flex: 3, ) ,
-              Text('${provider.valueTextFormField}', style: TextStyle( fontSize: 30,fontWeight: FontWeight.bold),),
-              SizedBox(height: 5,),
-              Text('updated: ${time}', style: TextStyle( fontSize: 22),),
-              Spacer( ) ,
+              const Spacer(flex: 3, ) ,
+              Text(provider.valueTextFormField ??'' , style: const TextStyle( fontSize: 30,fontWeight: FontWeight.bold),),
+              const SizedBox(height: 5,),
+              Text('updated: ${provider.getWeatherModel.date ?? ''}', style: const TextStyle( fontSize: 22),),
+              const Spacer( ) ,
               Row(
   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Image.network('https:${provider.weatherModel?.icon}'),
-                  Text( '${provider.weatherModel!.temp.toInt()}', style: TextStyle( fontSize: 30,fontWeight: FontWeight.bold)) ,
-                  Column( children: [Text( 'minTemp: ${provider.weatherModel!.minTemp}'),Text('maxTemp:${provider.weatherModel?.maxTemp}')],),
+                  Image.network('https:${provider.getWeatherModel.icon}'),
+                  Text( '${provider.getWeatherModel.temp ??'' }', style: const TextStyle( fontSize: 30,fontWeight: FontWeight.bold)) ,
+                  Column( children: [Text( 'minTemp: ${provider.getWeatherModel.minTemp ?? ''}'),
+                    Text('maxTemp:${provider.getWeatherModel.maxTemp ?? ''}')],),
                 ],
 
               ),
-              Spacer( ),
-              Text('${provider.weatherModel!.weatherStateName}', style: TextStyle( fontSize: 30,fontWeight: FontWeight.bold),),
-              Spacer(flex: 5, )
+              const Spacer( ),
+              Text('${provider.getWeatherModel.weatherStateName ?? ''}', style: const TextStyle( fontSize: 30,fontWeight: FontWeight.bold),),
+              const Spacer(flex: 5, )
             ],
           )
           ,

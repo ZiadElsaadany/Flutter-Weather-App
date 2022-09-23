@@ -6,13 +6,15 @@ import 'package:weather_app/pages/home_page.dart';
 
 void main () {
   runApp(
-      ChangeNotifierProvider(create: (context) => ApiManager(), child:MyApp()  )
+      ChangeNotifierProvider(
+          create  : (ctx)=>ApiManager() ,
+      child: MyApp())
   );
 }
 class MyApp extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home:  HomePage( ),
     );
